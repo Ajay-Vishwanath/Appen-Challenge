@@ -8,11 +8,11 @@
 		<version>2.3.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.ajay.appenchallenge.springboot.maven.crud</groupId>
-	<artifactId>ajay-appenchallenge-weatherbot</artifactId>
+	<groupId>com.appen.ajayweatherbot</groupId>
+	<artifactId>ajayweatherbot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ajay-appenchallenge-weatherbot</name>
-	<description>Weatherbot Full Stack Project for Appen Coding Challenge</description>
+	<name>ajayweatherbot</name>
+	<description>Weatherbot Application for Appen Coding Challenge</description>
 
 	<properties>
 		<java.version>11</java.version>

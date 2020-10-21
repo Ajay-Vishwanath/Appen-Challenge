@@ -1,10 +1,10 @@
-package com.ajay.appenchallenge.springboot.maven.crud.ajayappenchallengeweatherbot;
+package com.appen.ajayweatherbot.ajayweatherbot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AjayAppenchallengeWeatherbotApplicationTests {
+class AjayweatherbotApplicationTests {
 
 	@Test
 	void contextLoads() {
