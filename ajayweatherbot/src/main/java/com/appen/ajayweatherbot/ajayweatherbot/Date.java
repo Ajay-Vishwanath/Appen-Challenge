@@ -12,7 +12,7 @@ public class Date {
 	
 	public Date(long id, String dayOfWeek, String weather, int[] temperature) {
 		super();
-		this.id = id;
+		this.id = id;	
 		this.dayOfWeek = dayOfWeek;
 		this.weather = weather;
 		this.temperature = temperature;

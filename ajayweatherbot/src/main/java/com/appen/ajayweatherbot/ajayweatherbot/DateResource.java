@@ -14,7 +14,8 @@ public class DateResource {
 	private DatesHardcodedService dateManagementService;
 	
 	@GetMapping("/dates")
-	public List<Date> getAllDates() {
+	public List<Date> getAll() {
 	  return dateManagementService.findAll();
 	}
+
 }
