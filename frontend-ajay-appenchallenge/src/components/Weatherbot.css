@@ -1,0 +1,57 @@
+.container {
+    margin: 0 auto;
+    width: 800px;
+    height: 460px;
+    border-radius: 8px;
+    border: 1px solid #dfe1e5;
+}
+
+.weatherbot-content {
+    padding: 20px 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%
+}
+
+#location {
+    font-family: Google Sans,arial,sans-serif !important;
+    font-size: 24px;
+    color: #878787;
+    line-height: 1.2;
+}
+
+.information {
+    font-family: Google Sans,arial,sans-serif !important;
+    font-size: 16px;
+    display: block;
+    color: #878787;
+    line-height: 1.2;
+    padding: 1px;
+}
+
+#current-weather-pic{
+    height: 80px;
+    width: 80px;
+}
+
+#current-weather-info{
+    padding-top: 15px;
+    display: flex;
+}
+
+#current-temp{
+    font-size: 80px;
+    padding-left: 10px;
+}
+
+#weatherbot-item-container{
+    display: flex;
+    margin-top: auto;
+}
+
+.weatherbot-item{
+    height: 100px;
+    border: 1px solid black;
+    flex: 1;
+}
