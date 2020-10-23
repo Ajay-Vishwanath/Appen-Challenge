@@ -31,7 +31,7 @@ class Weatherbot extends Component {
 
   render() {
     const dates = (this.state.dates) ? (this.state.dates.map(date => {
-      return <WeatherbotindexItem key={date.id} />
+      return <WeatherbotindexItem key={date.id} date={date}/>
     })) : null
 
     let imageUrl;
