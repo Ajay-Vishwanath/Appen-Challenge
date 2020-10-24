@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import DateDataService from '../service/WeatherbotService'
-import './Weatherbot.css'
-import WeatherbotindexItem from './Weatherbot_Index_Item'
+import React, { Component } from "react";
+import DateDataService from "../service/WeatherbotService";
+import "./Weatherbot.css";
+import WeatherbotindexItem from "./Weatherbot_Index_Item";
 
 class Weatherbot extends Component {
   constructor(props) {
@@ -11,7 +11,11 @@ class Weatherbot extends Component {
       weather: null,
       date: null,
       dates: null,
+      highestTemp: null
     };
+
+    this.changeDate = this.changeDate.bind(this);
+    this.highestTemp = this.highestTemp.bind(this);
   }
 
   componentDidMount() {
@@ -25,23 +29,46 @@ class Weatherbot extends Component {
       this.setState({
         dayOfWeek: this.state.date.dayOfWeek,
         weather: this.state.date.weather,
+        highestTemp: this.highestTemp(this.state.date.temperature)
       });
     }
   }
 
+  highestTemp(array) {
+    let max = Number.NEGATIVE_INFINITY;
+
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] > max) max = array[i];
+    }
+
+    return max;
+  }
+
+  changeDate(date) {
+    this.setState({ date: date });
+  }
+
   render() {
-    const dates = (this.state.dates) ? (this.state.dates.map(date => {
-      return <WeatherbotindexItem key={date.id} date={date}/>
-    })) : null
+    const dates = this.state.dates
+      ? this.state.dates.map((date) => {
+          return (
+            <WeatherbotindexItem
+              key={date.id}
+              date={date}
+              changeDate={this.changeDate}
+            />
+          );
+        })
+      : null;
 
     let imageUrl;
 
-    if (this.state.weather === "Sunny"){
-      imageUrl = '/sunny.png'
-    } else if (this.state.weather === "Partly Cloudy"){
-      imageUrl = '/partly cloudy.png'
+    if (this.state.weather === "Sunny") {
+      imageUrl = "/sunny.png";
+    } else if (this.state.weather === "Partly Cloudy") {
+      imageUrl = "/partly cloudy.png";
     } else if (this.state.weather === "Cloudy") {
-      imageUrl = '/cloudy.png'
+      imageUrl = "/cloudy.png";
     }
 
     return (
@@ -52,14 +79,12 @@ class Weatherbot extends Component {
           <span className="information">{this.state.weather}</span>
           <div id="current-weather-info">
             <img src={imageUrl} alt="weather-icon" id="current-weather-pic" />
-            <span id="current-temp">13</span>
+            <span id="current-temp">{this.state.highestTemp}</span>
             <span>°C</span>
             <span>&nbsp;|&nbsp;</span>
             <span>°F</span>
           </div>
-          <div id="weatherbot-item-container">
-          {dates}
-          </div>
+          <div id="weatherbot-item-container">{dates}</div>
         </div>
       </div>
     );

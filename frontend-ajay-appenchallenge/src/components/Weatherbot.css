@@ -56,15 +56,31 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
 }
 
 #item-day{
     padding: 7px 0px 7px 0px;
     font-size: 14px;
     color: #878787;
+    font-family: Google Sans,arial,sans-serif !important;
 }
 
 .item-image{
     height: 50px;
     width: 50px;
+    margin: 1px 4px 0;
+}
+
+.item-temp{
+    font-size: 13px;
+    color: #878787 !important;
+    padding-right: 5px;
+    font-family: Google Sans,arial,sans-serif !important;
+}
+
+.item-temp-low{
+    font-size: 13px;
+    color: #bababa;
+    font-family: Google Sans,arial,sans-serif !important;
 }
