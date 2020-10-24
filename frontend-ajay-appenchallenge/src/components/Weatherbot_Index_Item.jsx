@@ -37,8 +37,10 @@ const WeatherbotIndexItem = props => {
       props.changeDate(props.date)
     }
 
+    let weatherbotClass = props.currentDate === props.date ? "weatherbot-item-selected" : "weatherbot-item";
+
     return (
-      <div className="weatherbot-item" onClick={changeDate}>
+      <div className={weatherbotClass} onClick={changeDate}>
         <span id="item-day">{props.date.dayOfWeek.slice(0, 3)}</span>
         <img className="item-image" src={imageUrl} alt="" />
         <div>

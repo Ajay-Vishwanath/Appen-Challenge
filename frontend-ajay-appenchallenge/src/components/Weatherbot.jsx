@@ -55,6 +55,7 @@ class Weatherbot extends Component {
             <WeatherbotindexItem
               key={date.id}
               date={date}
+              currentDate={this.state.date}
               changeDate={this.changeDate}
             />
           );
