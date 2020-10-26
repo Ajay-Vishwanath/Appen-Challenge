@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import DateDataService from "../service/WeatherbotService";
 import "./Weatherbot.css";
 import WeatherbotindexItem from "./Weatherbot_Index_Item";
-import { Line } from 'react-chartjs-2';
-import chartOptions from './Weatherbot_chart_options'
+import { Line } from "react-chartjs-2";
+import chartOptions from "./Weatherbot_chart_options";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
 class Weatherbot extends Component {
@@ -15,7 +15,7 @@ class Weatherbot extends Component {
       date: null,
       dates: null,
       highestTemp: null,
-      celcius: false
+      celcius: false,
     };
 
     this.changeDate = this.changeDate.bind(this);
@@ -24,9 +24,9 @@ class Weatherbot extends Component {
   }
 
   componentDidMount() {
-    debugger
+    debugger;
     DateDataService.retrieveAllDates().then((response) => {
-      this.setState({ dates: response.data, date: response.data[0]});
+      this.setState({ dates: response.data, date: response.data[0] });
     });
   }
 
@@ -35,7 +35,7 @@ class Weatherbot extends Component {
       this.setState({
         dayOfWeek: this.state.date.dayOfWeek,
         weather: this.state.date.weather,
-        highestTemp: this.highestTemp(this.state.date.temperature)
+        highestTemp: this.highestTemp(this.state.date.temperature),
       });
     }
   }
@@ -54,12 +54,12 @@ class Weatherbot extends Component {
     this.setState({ date: date });
   }
 
-  convertToCelcius(temp){
-    return Math.round(((temp-32) * 5) / 9)
+  convertToCelcius(temp) {
+    return Math.round(((temp - 32) * 5) / 9);
   }
 
-  toggleTemp(){
-    this.setState({celcius: !this.state.celcius})
+  toggleTemp() {
+    this.setState({ celcius: !this.state.celcius });
   }
 
   render() {
@@ -88,11 +88,14 @@ class Weatherbot extends Component {
       imageUrl = "/cloudy.png";
     }
 
-
     let weatherGraph = null;
 
     if (this.state.date !== null) {
-      let tempData = this.state.celcius ? this.state.date.temperature.slice().map((temp) => this.convertToCelcius(temp)) : this.state.date.temperature.slice()
+      let tempData = this.state.celcius
+        ? this.state.date.temperature
+            .slice()
+            .map((temp) => this.convertToCelcius(temp))
+        : this.state.date.temperature.slice();
       let graphData = {
         labels: ["3AM", "6AM", "9AM", "12PM", "3PM", "6PM", "9PM", "12AM"],
         datasets: [
@@ -103,19 +106,18 @@ class Weatherbot extends Component {
           },
         ],
       };
-      weatherGraph = <Line data={graphData} height={50} options={chartOptions}/>;
+      weatherGraph = (
+        <Line data={graphData} height={50} options={chartOptions} />
+      );
     }
 
-    let highestTemp = this.state.celcius ? this.convertToCelcius(this.state.highestTemp) : this.state.highestTemp
+    let highestTemp = this.state.celcius
+      ? this.convertToCelcius(this.state.highestTemp)
+      : this.state.highestTemp;
 
-        let celciusClass =
-          this.state.celcius
-            ? "temp-selected"
-            : "temp";
+    let celciusClass = this.state.celcius ? "temp-selected" : "temp";
 
-                    let farenheightClass = this.state.celcius
-                      ? "temp"
-                      : "temp-selected";
+    let farenheightClass = this.state.celcius ? "temp" : "temp-selected";
 
     return (
       <div className="container">
@@ -126,9 +128,13 @@ class Weatherbot extends Component {
           <div id="current-weather-info">
             <img src={imageUrl} alt="weather-icon" id="current-weather-pic" />
             <span id="current-temp">{highestTemp}</span>
-            <span className={celciusClass} onClick={this.toggleTemp}>°C</span>
+            <span className={celciusClass} onClick={this.toggleTemp}>
+              °C
+            </span>
             <span>&nbsp;|&nbsp;</span>
-            <span className={farenheightClass} onClick={this.toggleTemp}>°F</span>
+            <span className={farenheightClass} onClick={this.toggleTemp}>
+              °F
+            </span>
           </div>
           {weatherGraph}
           <div id="weatherbot-item-container">{dates}</div>
