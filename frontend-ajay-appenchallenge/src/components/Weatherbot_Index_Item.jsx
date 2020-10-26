@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import "./Weatherbot.css";
 
 class WeatherbotIndexItem extends Component {
@@ -10,9 +10,9 @@ class WeatherbotIndexItem extends Component {
     this.changeDate = this.changeDate.bind(this);
   }
 
-  componentDidUpdate(){
-    if (this.props.date.id === 1){
-      debugger
+  componentDidUpdate() {
+    if (this.props.date.id === 1) {
+      debugger;
     }
   }
 
@@ -23,7 +23,9 @@ class WeatherbotIndexItem extends Component {
       if (array[i] > max) max = array[i];
     }
 
-    return max;
+    if (this.props.celcius) {
+      return this.props.convertToCelcius(max);
+    } else return max;
   }
 
   lowestTemp(array) {
@@ -33,6 +35,9 @@ class WeatherbotIndexItem extends Component {
       if (array[i] < min) min = array[i];
     }
 
+    if (this.props.celcius) {
+      return this.props.convertToCelcius(min);
+    }
     return min;
   }
 

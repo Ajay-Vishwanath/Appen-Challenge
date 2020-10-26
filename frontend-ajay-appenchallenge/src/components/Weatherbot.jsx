@@ -3,6 +3,7 @@ import DateDataService from "../service/WeatherbotService";
 import "./Weatherbot.css";
 import WeatherbotindexItem from "./Weatherbot_Index_Item";
 import { Line } from 'react-chartjs-2';
+import chartOptions from './Weatherbot_chart_options'
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
 class Weatherbot extends Component {
@@ -14,10 +15,12 @@ class Weatherbot extends Component {
       date: null,
       dates: null,
       highestTemp: null,
+      celcius: false
     };
 
     this.changeDate = this.changeDate.bind(this);
     this.highestTemp = this.highestTemp.bind(this);
+    this.toggleTemp = this.toggleTemp.bind(this);
   }
 
   componentDidMount() {
@@ -51,6 +54,14 @@ class Weatherbot extends Component {
     this.setState({ date: date });
   }
 
+  convertToCelcius(temp){
+    return Math.round(((temp-32) * 5) / 9)
+  }
+
+  toggleTemp(){
+    this.setState({celcius: !this.state.celcius})
+  }
+
   render() {
     const dates = this.state.dates
       ? this.state.dates.map((date) => {
@@ -60,6 +71,8 @@ class Weatherbot extends Component {
               date={date}
               currentDate={this.state.date}
               changeDate={this.changeDate}
+              celcius={this.state.celcius}
+              convertToCelcius={this.convertToCelcius}
             />
           );
         })
@@ -78,70 +91,13 @@ class Weatherbot extends Component {
 
     let weatherGraph = null;
 
-    let chartOptions = {
-      elements: {
-        point: {
-          radius: 0,
-        },
-      },
-      legend: {
-        display: false,
-        labels: {
-          display: false,
-        },
-      },
-      layout: {
-        padding: {
-          left: 10,
-          right: 10,
-          top: 10,
-          bottom: 10,
-        },
-      },
-      plugins: {
-        datalabels: {
-          color: "rgb(181, 181, 181)",
-          borderRadius: 4,
-          font: {
-            weight: "bold",
-          },
-          padding: {
-            bottom: 500,
-          },
-          align: "center",
-        },
-      },
-      scales: {
-        xAxes: [
-          {
-            gridLines: {
-              display: false,
-            },
-            ticks: {
-              fontFamily: "Google Sans,arial,sans-serif",
-              fontColor: '#878787'
-            },
-          },
-        ],
-        yAxes: [
-          {
-            gridLines: {
-              display: false,
-            },
-            ticks: {
-              display: false,
-            },
-          },
-        ],
-      },
-    };
-
     if (this.state.date !== null) {
+      let tempData = this.state.celcius ? this.state.date.temperature.slice().map((temp) => this.convertToCelcius(temp)) : this.state.date.temperature.slice()
       let graphData = {
         labels: ["3AM", "6AM", "9AM", "12PM", "3PM", "6PM", "9PM", "12AM"],
         datasets: [
           {
-            data: this.state.date.temperature.slice(),
+            data: tempData,
             backgroundColor: "#FFF7E4",
             borderColor: "#FFD35D",
           },
@@ -149,6 +105,17 @@ class Weatherbot extends Component {
       };
       weatherGraph = <Line data={graphData} height={50} options={chartOptions}/>;
     }
+
+    let highestTemp = this.state.celcius ? this.convertToCelcius(this.state.highestTemp) : this.state.highestTemp
+
+        let celciusClass =
+          this.state.celcius
+            ? "temp-selected"
+            : "temp";
+
+                    let farenheightClass = this.state.celcius
+                      ? "temp"
+                      : "temp-selected";
 
     return (
       <div className="container">
@@ -158,10 +125,10 @@ class Weatherbot extends Component {
           <span className="information">{this.state.weather}</span>
           <div id="current-weather-info">
             <img src={imageUrl} alt="weather-icon" id="current-weather-pic" />
-            <span id="current-temp">{this.state.highestTemp}</span>
-            <span>°C</span>
+            <span id="current-temp">{highestTemp}</span>
+            <span className={celciusClass} onClick={this.toggleTemp}>°C</span>
             <span>&nbsp;|&nbsp;</span>
-            <span>°F</span>
+            <span className={farenheightClass} onClick={this.toggleTemp}>°F</span>
           </div>
           {weatherGraph}
           <div id="weatherbot-item-container">{dates}</div>
