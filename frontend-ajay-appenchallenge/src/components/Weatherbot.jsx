@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import DateDataService from "../service/WeatherbotService";
 import "./Weatherbot.css";
 import WeatherbotindexItem from "./Weatherbot_Index_Item";
+import { Line } from 'react-chartjs-2';
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
 class Weatherbot extends Component {
   constructor(props) {
@@ -11,7 +13,7 @@ class Weatherbot extends Component {
       weather: null,
       date: null,
       dates: null,
-      highestTemp: null
+      highestTemp: null,
     };
 
     this.changeDate = this.changeDate.bind(this);
@@ -19,8 +21,9 @@ class Weatherbot extends Component {
   }
 
   componentDidMount() {
+    debugger
     DateDataService.retrieveAllDates().then((response) => {
-      this.setState({ dates: response.data, date: response.data[0] });
+      this.setState({ dates: response.data, date: response.data[0]});
     });
   }
 
@@ -72,6 +75,81 @@ class Weatherbot extends Component {
       imageUrl = "/cloudy.png";
     }
 
+
+    let weatherGraph = null;
+
+    let chartOptions = {
+      elements: {
+        point: {
+          radius: 0,
+        },
+      },
+      legend: {
+        display: false,
+        labels: {
+          display: false,
+        },
+      },
+      layout: {
+        padding: {
+          left: 10,
+          right: 10,
+          top: 10,
+          bottom: 10,
+        },
+      },
+      plugins: {
+        datalabels: {
+          color: "rgb(181, 181, 181)",
+          borderRadius: 4,
+          font: {
+            weight: "bold",
+          },
+          padding: {
+            bottom: 500,
+          },
+          align: "center",
+        },
+      },
+      scales: {
+        xAxes: [
+          {
+            gridLines: {
+              display: false,
+            },
+            ticks: {
+              fontFamily: "Google Sans,arial,sans-serif",
+              fontColor: '#878787'
+            },
+          },
+        ],
+        yAxes: [
+          {
+            gridLines: {
+              display: false,
+            },
+            ticks: {
+              display: false,
+            },
+          },
+        ],
+      },
+    };
+
+    if (this.state.date !== null) {
+      let graphData = {
+        labels: ["3AM", "6AM", "9AM", "12PM", "3PM", "6PM", "9PM", "12AM"],
+        datasets: [
+          {
+            data: this.state.date.temperature.slice(),
+            backgroundColor: "#FFF7E4",
+            borderColor: "#FFD35D",
+          },
+        ],
+      };
+      weatherGraph = <Line data={graphData} height={50} options={chartOptions}/>;
+    }
+
     return (
       <div className="container">
         <div className="weatherbot-content">
@@ -85,6 +163,7 @@ class Weatherbot extends Component {
             <span>&nbsp;|&nbsp;</span>
             <span>°F</span>
           </div>
+          {weatherGraph}
           <div id="weatherbot-item-container">{dates}</div>
         </div>
       </div>
